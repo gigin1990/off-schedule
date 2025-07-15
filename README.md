@@ -1,8 +1,8 @@
-# Off Schedule - Indonesian Calendar Version
+# Off Schedule - Final Version with Google Sheets
 
-- Kalender dengan hari berbahasa Indonesia (Senin - Minggu)
-- Tampil per minggu seperti kalender asli
-- Update live setelah submit
+- Data is saved to your Google Spreadsheet via Apps Script
+- Displays real-time calendar
+- Indonesian day names and layout
 
 ## Deploy
 Upload to Vercel. Set root directory as `public`.
