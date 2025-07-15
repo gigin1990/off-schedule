@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Off Request - Sales Support & Cashier</title>
+
+  <!-- FullCalendar CSS & JS -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    #calendar {
+      max-width: 1000px;
+      margin: 40px auto;
+    }
+  </style>
+</head>
+<body>
+  <h2>Off Request - Sales Support & Cashier (August 2025)</h2>
+
+  <form id="offForm">
+    <label>Nama:</label><br>
+    <input type="text" id="name" required><br><br>
+
+    <label>Pilih Tanggal Off (pisahkan dengan koma):</label><br>
+    <textarea id="dates" rows="4" required></textarea><br><br>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <div id="calendar"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
