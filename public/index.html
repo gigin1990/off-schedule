@@ -1,190 +1,23 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sales Support - Cashier Off Schedule</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <script>
-    const maxOffPerPerson = 11;
-    const maxWeekendOff = 2;
-    const offRequests = {};
-
-    const isWeekend = date => {
-      const d = new Date(date);
-      return d.getDay() === 0 || d.getDay() === 6;
-    };
-
-    function submitRequest() {
-      const name = document.getElementById("name").value.trim();
-      const dates = Array.from(document.getElementById("dates").selectedOptions).map(opt => opt.value);
-
-      if (!name || dates.length === 0) {
-        alert("Please enter your name and select at least one date.");
-        return;
-      }
-
-      offRequests[name] = offRequests[name] || [];
-      const totalOff = offRequests[name].length + dates.length;
-      if (totalOff > maxOffPerPerson) {
-        alert(`You can only request up to ${maxOffPerPerson} off days. You already have ${offRequests[name].length}.`);
-        return;
-      }
-
-      for (let date of dates) {
-        const currentOff = Object.values(offRequests).flat().filter(d => d === date).length;
-        if (isWeekend(date) && currentOff >= maxWeekendOff) {
-          alert(`Too many people already requested off on ${date}. Max ${maxWeekendOff} allowed on weekends.`);
-          return;
-        }
-      }
-
-      offRequests[name].push(...dates);
-      updateCalendar();
-      
-      fetch("https://script.google.com/macros/s/AKfycbyec8MG9m6CCbkvVH0QSepRef__KcG4_wwEYoQd3pAYhw_a3t5kVdSl8l1IlVqNhVjgsA/exec", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: name, dates: dates })
-      }).then(res => console.log("Sent to Google Sheets"));
-
-      alert("Request submitted!");
-    
-      document.getElementById("form").reset();
-    }
-
-    
-function renderCalendarTable() {
-  const tbody = document.getElementById("calendar-body");
-  tbody.innerHTML = "";
-  const year = 2025;
-  const month = 7;
-  const firstDay = new Date(year, month, 1).getDay(); // 0 = Sunday
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const adjustedFirst = (firstDay + 6) % 7; // convert Sunday-start to Monday-start
-
-  let row = "<tr>";
-  let currentDay = 1;
-
-  for (let i = 0; i < adjustedFirst; i++) row += "<td class='border p-1'></td>";
-
-  for (let i = adjustedFirst; i < 7; i++) {
-    const dateStr = `2025-08-${String(currentDay).padStart(2, '0')}`;
-    row += calendarCellHTML(dateStr);
-    currentDay++;
-  }
-  row += "</tr>";
-  tbody.innerHTML += row;
-
-  while (currentDay <= daysInMonth) {
-    row = "<tr>";
-    for (let i = 0; i < 7; i++) {
-      if (currentDay > daysInMonth) {
-        row += "<td class='border p-1'></td>";
-      } else {
-        const dateStr = `2025-08-${String(currentDay).padStart(2, '0')}`;
-        row += calendarCellHTML(dateStr);
-        currentDay++;
-      }
-    }
-    row += "</tr>";
-    tbody.innerHTML += row;
-  }
-}
-
-function calendarCellHTML(dateStr) {
-  const offList = Object.entries(offRequests)
-    .filter(([_, dates]) => dates.includes(dateStr))
-    .map(([name]) => name);
-
-  const names = offList.length ? offList.join(", ") : "<span class='text-gray-400'>-</span>";
-  return `<td class='border p-1 align-top text-xs'>
-    <div class='font-bold'>${dateStr.slice(-2)}</div>
-    <div>${names}</div>
-  </td>`;
-}
-
-
-function updateCalendar() {
-  renderCalendarTable();
-      const calendar = document.getElementById("calendar");
-      calendar.innerHTML = "";
-      const year = 2025;
-      const month = 7;
-      const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-      for (let day = 1; day <= daysInMonth; day++) {
-        const date = new Date(year, month, day);
-        const formatted = date.toISOString().split('T')[0];
-        const offList = Object.entries(offRequests)
-          .filter(([_, dates]) => dates.includes(formatted))
-          .map(([name]) => name);
-
-        const isWeekendDay = isWeekend(formatted);
-        calendar.innerHTML += `
-          <div class="border p-2 rounded mb-2 ${isWeekendDay ? 'bg-yellow-100' : 'bg-white'}">
-            <strong>${formatted}</strong><br/>
-            ${offList.length > 0 ? offList.join(", ") : "<span class='text-gray-400'>No requests</span>"}
-          </div>
-        `;
-      }
-    }
-  
-    window.onload = updateCalendar;
-  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Off Request - Sales Support & Cashier</title>
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css" rel="stylesheet"/>
 </head>
-<body class="p-4 bg-gray-50">
-  <h1 class="text-2xl font-bold mb-4">Off Request - Sales Support & Cashier (August 2025)</h1>
-  <form id="form" class="mb-4">
-    <div class="mb-2">
-      <label class="block font-semibold">Name:</label>
-      <input type="text" id="name" class="border p-2 w-full" placeholder="Enter your name" required>
-    </div>
-    <div class="mb-2">
-      <label class="block font-semibold">Select Off Dates:</label>
-      <select id="dates" multiple class="border p-2 w-full h-40">
-<option value="2025-08-01">2025-08-01</option>
-<option value="2025-08-02">2025-08-02</option>
-<option value="2025-08-03">2025-08-03</option>
-<option value="2025-08-04">2025-08-04</option>
-<option value="2025-08-05">2025-08-05</option>
-<option value="2025-08-06">2025-08-06</option>
-<option value="2025-08-07">2025-08-07</option>
-<option value="2025-08-08">2025-08-08</option>
-<option value="2025-08-09">2025-08-09</option>
-<option value="2025-08-10">2025-08-10</option>
-<option value="2025-08-11">2025-08-11</option>
-<option value="2025-08-12">2025-08-12</option>
-<option value="2025-08-13">2025-08-13</option>
-<option value="2025-08-14">2025-08-14</option>
-<option value="2025-08-15">2025-08-15</option>
-<option value="2025-08-16">2025-08-16</option>
-<option value="2025-08-17">2025-08-17</option>
-<option value="2025-08-18">2025-08-18</option>
-<option value="2025-08-19">2025-08-19</option>
-<option value="2025-08-20">2025-08-20</option>
-<option value="2025-08-21">2025-08-21</option>
-<option value="2025-08-22">2025-08-22</option>
-<option value="2025-08-23">2025-08-23</option>
-<option value="2025-08-24">2025-08-24</option>
-<option value="2025-08-25">2025-08-25</option>
-<option value="2025-08-26">2025-08-26</option>
-<option value="2025-08-27">2025-08-27</option>
-<option value="2025-08-28">2025-08-28</option>
-<option value="2025-08-29">2025-08-29</option>
-<option value="2025-08-30">2025-08-30</option>
-<option value="2025-08-31">2025-08-31</option>
-      </select>
-    </div>
-    <button type="button" onclick="submitRequest()" class="bg-blue-500 text-white px-4 py-2 rounded">Submit</button>
+<body>
+  <h2>Off Request - Sales Support & Cashier (August 2025)</h2>
+  <form id="offForm">
+    <label for="name">Nama:</label><br/>
+    <input type="text" id="name" name="name" required><br/><br/>
+    <label for="dates">Pilih Tanggal Off:</label><br/>
+    <textarea id="dates" name="dates" rows="5" required></textarea><br/><br/>
+    <button type="submit">Submit</button>
   </form>
+  <div id="calendar" style="margin-top: 30px;"></div>
 
-  <h2 class="text-xl font-bold mt-6 mb-2">📅 Off Calendar</h2>
-<h2 class="text-xl font-bold mt-6 mb-2">📅 Kalender Off Agustus 2025</h2>
-<table class="w-full table-fixed border text-sm">
-  <thead><tr class="bg-gray-200 text-center"><th class="p-1 border">Sen</th><th class="p-1 border">Sel</th><th class="p-1 border">Rab</th><th class="p-1 border">Kam</th><th class="p-1 border">Jum</th><th class="p-1 border">Sab</th><th class="p-1 border">Min</th></tr></thead>
-  <tbody id="calendar-body"></tbody>
-</table>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
