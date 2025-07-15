@@ -23,15 +23,23 @@ document.addEventListener("DOMContentLoaded", function () {
     eventList.forEach((event) => calendar.addEvent(event));
 
     fetch("https://script.google.com/macros/s/AKfycbw11gVktegPQnCqvlVlSn3zMMzBqez1yUUkaK7kq5l3lw9EjrA-4JDVO0UD9G9-RoDO3Q/exec", {
-      method: "POST",
-      mode: "no-cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name, dates }),
-    });
-
-    document.getElementById("offForm").reset();
-    alert("Data berhasil dikirim!");
-  });
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    name: name,
+    dates: dates.split(",").map(d => d.trim())  // pastikan bentuk array
+  }),
+})
+.then(response => response.text())
+.then(result => {
+  console.log("Sukses kirim:", result);
+  alert("Data berhasil dikirim!");
+  document.getElementById("offForm").reset();
+})
+.catch(error => {
+  console.error("Gagal kirim:", error);
+  alert("Gagal mengirim data");
+});
 });
