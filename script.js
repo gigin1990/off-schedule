@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     eventList.forEach((event) => calendar.addEvent(event));
 
-    fetch("https://script.google.com/macros/s/AKfycbw11gVktegPQnCqvlVlSn3zMMzBqez1yUUkaK7kq5l3lw9EjrA-4JDVO0UD9G9-RoDO3Q/exec", {
+    fetch("https://script.google.com/macros/s/AKfycbwVMaTBFaED4bugZLzB6nDWE3jqLX9pp-zd3SN67AwtsU3Z1vITgXL5mtdSfq-Qe_s1JA/exec", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
