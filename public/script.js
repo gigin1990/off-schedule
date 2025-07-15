@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     eventList.forEach((event) => calendar.addEvent(event));
 
-    fetch("https://script.google.com/macros/s/AKfycbyec8MG9m6CCbkvVH0QSepRef__KcG4_wwEYoQd3pAYhw_a3t5kVdSl8l1IlVqNhVjgsA/exec", {
+    fetch("https://script.google.com/macros/s/AKfycbw11gVktegPQnCqvlVlSn3zMMzBqez1yUUkaK7kq5l3lw9EjrA-4JDVO0UD9G9-RoDO3Q/exec", {
       method: "POST",
       mode: "no-cors",
       headers: {
