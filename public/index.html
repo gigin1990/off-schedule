@@ -50,7 +50,7 @@
       const calendar = document.getElementById("calendar");
       calendar.innerHTML = "";
       const year = 2025;
-      const month = 7; // August (0-based index)
+      const month = 7;
       const daysInMonth = new Date(year, month + 1, 0).getDate();
 
       for (let day = 1; day <= daysInMonth; day++) {
@@ -81,14 +81,37 @@
     <div class="mb-2">
       <label class="block font-semibold">Select Off Dates:</label>
       <select id="dates" multiple class="border p-2 w-full h-40">
-        <!-- Dates of August 2025 -->
-        <script>
-          const select = document.currentScript.parentElement.querySelector('#dates');
-          for (let d = 1; d <= 31; d++) {
-            const dateStr = `2025-08-${String(d).padStart(2, '0')}`;
-            select.innerHTML += `<option value="${dateStr}">${dateStr}</option>`;
-          }
-        </script>
+<option value="2025-08-01">2025-08-01</option>
+<option value="2025-08-02">2025-08-02</option>
+<option value="2025-08-03">2025-08-03</option>
+<option value="2025-08-04">2025-08-04</option>
+<option value="2025-08-05">2025-08-05</option>
+<option value="2025-08-06">2025-08-06</option>
+<option value="2025-08-07">2025-08-07</option>
+<option value="2025-08-08">2025-08-08</option>
+<option value="2025-08-09">2025-08-09</option>
+<option value="2025-08-10">2025-08-10</option>
+<option value="2025-08-11">2025-08-11</option>
+<option value="2025-08-12">2025-08-12</option>
+<option value="2025-08-13">2025-08-13</option>
+<option value="2025-08-14">2025-08-14</option>
+<option value="2025-08-15">2025-08-15</option>
+<option value="2025-08-16">2025-08-16</option>
+<option value="2025-08-17">2025-08-17</option>
+<option value="2025-08-18">2025-08-18</option>
+<option value="2025-08-19">2025-08-19</option>
+<option value="2025-08-20">2025-08-20</option>
+<option value="2025-08-21">2025-08-21</option>
+<option value="2025-08-22">2025-08-22</option>
+<option value="2025-08-23">2025-08-23</option>
+<option value="2025-08-24">2025-08-24</option>
+<option value="2025-08-25">2025-08-25</option>
+<option value="2025-08-26">2025-08-26</option>
+<option value="2025-08-27">2025-08-27</option>
+<option value="2025-08-28">2025-08-28</option>
+<option value="2025-08-29">2025-08-29</option>
+<option value="2025-08-30">2025-08-30</option>
+<option value="2025-08-31">2025-08-31</option>
       </select>
     </div>
     <button type="button" onclick="submitRequest()" class="bg-blue-500 text-white px-4 py-2 rounded">Submit</button>
