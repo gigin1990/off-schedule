@@ -1,11 +1,8 @@
-# Off Schedule with Live Calendar Display
+# Off Schedule - Indonesian Calendar Version
 
-Now includes live calendar updates when users submit off requests.
-
-## Features
-- Max 11 off days per person
-- Max 2 people off on weekends
-- Realtime calendar updates (per session)
+- Kalender dengan hari berbahasa Indonesia (Senin - Minggu)
+- Tampil per minggu seperti kalender asli
+- Update live setelah submit
 
 ## Deploy
-Upload to Vercel, root directory: `public`
+Upload to Vercel. Set root directory as `public`.

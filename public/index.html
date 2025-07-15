@@ -46,7 +46,60 @@
       document.getElementById("form").reset();
     }
 
-    function updateCalendar() {
+    
+function renderCalendarTable() {
+  const tbody = document.getElementById("calendar-body");
+  tbody.innerHTML = "";
+  const year = 2025;
+  const month = 7;
+  const firstDay = new Date(year, month, 1).getDay(); // 0 = Sunday
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const adjustedFirst = (firstDay + 6) % 7; // convert Sunday-start to Monday-start
+
+  let row = "<tr>";
+  let currentDay = 1;
+
+  for (let i = 0; i < adjustedFirst; i++) row += "<td class='border p-1'></td>";
+
+  for (let i = adjustedFirst; i < 7; i++) {
+    const dateStr = `2025-08-${String(currentDay).padStart(2, '0')}`;
+    row += calendarCellHTML(dateStr);
+    currentDay++;
+  }
+  row += "</tr>";
+  tbody.innerHTML += row;
+
+  while (currentDay <= daysInMonth) {
+    row = "<tr>";
+    for (let i = 0; i < 7; i++) {
+      if (currentDay > daysInMonth) {
+        row += "<td class='border p-1'></td>";
+      } else {
+        const dateStr = `2025-08-${String(currentDay).padStart(2, '0')}`;
+        row += calendarCellHTML(dateStr);
+        currentDay++;
+      }
+    }
+    row += "</tr>";
+    tbody.innerHTML += row;
+  }
+}
+
+function calendarCellHTML(dateStr) {
+  const offList = Object.entries(offRequests)
+    .filter(([_, dates]) => dates.includes(dateStr))
+    .map(([name]) => name);
+
+  const names = offList.length ? offList.join(", ") : "<span class='text-gray-400'>-</span>";
+  return `<td class='border p-1 align-top text-xs'>
+    <div class='font-bold'>${dateStr.slice(-2)}</div>
+    <div>${names}</div>
+  </td>`;
+}
+
+
+function updateCalendar() {
+  renderCalendarTable();
       const calendar = document.getElementById("calendar");
       calendar.innerHTML = "";
       const year = 2025;
@@ -69,6 +122,8 @@
         `;
       }
     }
+  
+    window.onload = updateCalendar;
   </script>
 </head>
 <body class="p-4 bg-gray-50">
@@ -118,6 +173,10 @@
   </form>
 
   <h2 class="text-xl font-bold mt-6 mb-2">📅 Off Calendar</h2>
-<div id="calendar" class="grid grid-cols-2 gap-2"></div>
+<h2 class="text-xl font-bold mt-6 mb-2">📅 Kalender Off Agustus 2025</h2>
+<table class="w-full table-fixed border text-sm">
+  <thead><tr class="bg-gray-200 text-center"><th class="p-1 border">Sen</th><th class="p-1 border">Sel</th><th class="p-1 border">Rab</th><th class="p-1 border">Kam</th><th class="p-1 border">Jum</th><th class="p-1 border">Sab</th><th class="p-1 border">Min</th></tr></thead>
+  <tbody id="calendar-body"></tbody>
+</table>
 </body>
 </html>
