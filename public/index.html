@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sales Support - Cashier Off Schedule</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script>
+    const maxOffPerPerson = 11;
+    const maxWeekendOff = 2;
+    const offRequests = {};
+
+    const isWeekend = date => {
+      const d = new Date(date);
+      return d.getDay() === 0 || d.getDay() === 6;
+    };
+
+    function submitRequest() {
+      const name = document.getElementById("name").value.trim();
+      const dates = Array.from(document.getElementById("dates").selectedOptions).map(opt => opt.value);
+
+      if (!name || dates.length === 0) {
+        alert("Please enter your name and select at least one date.");
+        return;
+      }
+
+      offRequests[name] = offRequests[name] || [];
+      const totalOff = offRequests[name].length + dates.length;
+      if (totalOff > maxOffPerPerson) {
+        alert(`You can only request up to ${maxOffPerPerson} off days. You already have ${offRequests[name].length}.`);
+        return;
+      }
+
+      for (let date of dates) {
+        const currentOff = Object.values(offRequests).flat().filter(d => d === date).length;
+        if (isWeekend(date) && currentOff >= maxWeekendOff) {
+          alert(`Too many people already requested off on ${date}. Max ${maxWeekendOff} allowed on weekends.`);
+          return;
+        }
+      }
+
+      offRequests[name].push(...dates);
+      updateCalendar();
+      alert("Request submitted!");
+      document.getElementById("form").reset();
+    }
+
+    function updateCalendar() {
+      const calendar = document.getElementById("calendar");
+      calendar.innerHTML = "";
+      const year = 2025;
+      const month = 7; // August (0-based index)
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const date = new Date(year, month, day);
+        const formatted = date.toISOString().split('T')[0];
+        const offList = Object.entries(offRequests)
+          .filter(([_, dates]) => dates.includes(formatted))
+          .map(([name]) => name);
+
+        const isWeekendDay = isWeekend(formatted);
+        calendar.innerHTML += `
+          <div class="border p-2 rounded mb-2 ${isWeekendDay ? 'bg-yellow-100' : 'bg-white'}">
+            <strong>${formatted}</strong><br/>
+            ${offList.length > 0 ? offList.join(", ") : "<span class='text-gray-400'>No requests</span>"}
+          </div>
+        `;
+      }
+    }
+  </script>
+</head>
+<body class="p-4 bg-gray-50">
+  <h1 class="text-2xl font-bold mb-4">Off Request - Sales Support & Cashier (August 2025)</h1>
+  <form id="form" class="mb-4">
+    <div class="mb-2">
+      <label class="block font-semibold">Name:</label>
+      <input type="text" id="name" class="border p-2 w-full" placeholder="Enter your name" required>
+    </div>
+    <div class="mb-2">
+      <label class="block font-semibold">Select Off Dates:</label>
+      <select id="dates" multiple class="border p-2 w-full h-40">
+        <!-- Dates of August 2025 -->
+        <script>
+          const select = document.currentScript.parentElement.querySelector('#dates');
+          for (let d = 1; d <= 31; d++) {
+            const dateStr = `2025-08-${String(d).padStart(2, '0')}`;
+            select.innerHTML += `<option value="${dateStr}">${dateStr}</option>`;
+          }
+        </script>
+      </select>
+    </div>
+    <button type="button" onclick="submitRequest()" class="bg-blue-500 text-white px-4 py-2 rounded">Submit</button>
+  </form>
+
+  <div id="calendar" class="grid grid-cols-2 gap-2"></div>
+</body>
+</html>
