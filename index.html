@@ -2,21 +2,58 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Off Request - Sales Support & Cashier</title>
-  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet"/>
+  <title>Off Request - Sales Support & Cashier (August 2025)</title>
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet" />
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    #calendar { max-width: 900px; margin: 40px auto; }
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    label { display: block; margin-top: 10px; }
+    select { width: 300px; }
+    #calendar { margin-top: 40px; max-width: 900px; }
   </style>
 </head>
 <body>
   <h2>Off Request - Sales Support & Cashier (August 2025)</h2>
   <form id="offForm">
-    <label>Nama:</label><br/>
-    <input type="text" id="name" required /><br/><br/>
-    <label>Pilih Tanggal OFF (maksimal 3 tanggal):</label><br/>
-    <select id="dates" multiple size="8" required></select><br/><br/>
+    <label for="name">Nama:</label>
+    <input type="text" id="name" name="name" required />
+
+    <label for="dates">Pilih Tanggal Off (maksimal 3):</label>
+    <select id="dates" name="dates" multiple size="8">
+      <!-- Generated options -->
+<option value="2025-08-01">1 Agustus 2025</option>
+<option value="2025-08-02">2 Agustus 2025</option>
+<option value="2025-08-03">3 Agustus 2025</option>
+<option value="2025-08-04">4 Agustus 2025</option>
+<option value="2025-08-05">5 Agustus 2025</option>
+<option value="2025-08-06">6 Agustus 2025</option>
+<option value="2025-08-07">7 Agustus 2025</option>
+<option value="2025-08-08">8 Agustus 2025</option>
+<option value="2025-08-09">9 Agustus 2025</option>
+<option value="2025-08-10">10 Agustus 2025</option>
+<option value="2025-08-11">11 Agustus 2025</option>
+<option value="2025-08-12">12 Agustus 2025</option>
+<option value="2025-08-13">13 Agustus 2025</option>
+<option value="2025-08-14">14 Agustus 2025</option>
+<option value="2025-08-15">15 Agustus 2025</option>
+<option value="2025-08-16">16 Agustus 2025</option>
+<option value="2025-08-17">17 Agustus 2025</option>
+<option value="2025-08-18">18 Agustus 2025</option>
+<option value="2025-08-19">19 Agustus 2025</option>
+<option value="2025-08-20">20 Agustus 2025</option>
+<option value="2025-08-21">21 Agustus 2025</option>
+<option value="2025-08-22">22 Agustus 2025</option>
+<option value="2025-08-23">23 Agustus 2025</option>
+<option value="2025-08-24">24 Agustus 2025</option>
+<option value="2025-08-25">25 Agustus 2025</option>
+<option value="2025-08-26">26 Agustus 2025</option>
+<option value="2025-08-27">27 Agustus 2025</option>
+<option value="2025-08-28">28 Agustus 2025</option>
+<option value="2025-08-29">29 Agustus 2025</option>
+<option value="2025-08-30">30 Agustus 2025</option>
+<option value="2025-08-31">31 Agustus 2025</option>
+    </select>
+
+    <br><br>
     <button type="submit">Submit</button>
   </form>
 
